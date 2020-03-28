@@ -1,0 +1,18 @@
+ALTER TABLE person
+    ALTER COLUMN name TYPE VARCHAR(64),
+    ALTER COLUMN surname TYPE VARCHAR(64),
+    ALTER COLUMN cuit TYPE VARCHAR(11),
+    ALTER COLUMN nationality TYPE VARCHAR(20)
+;
+
+ALTER TABLE person_address
+    ALTER COLUMN street TYPE VARCHAR(32),
+    ALTER COLUMN number TYPE INTEGER USING number::integer,
+    ALTER COLUMN locality TYPE VARCHAR(32),
+    ALTER COLUMN state TYPE VARCHAR(20)
+;
+
+ALTER TABLE person_phone
+    ALTER COLUMN area_code TYPE VARCHAR(5),
+    ALTER COLUMN number TYPE VARCHAR(10)
+;
