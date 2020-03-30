@@ -84,13 +84,6 @@
 					<user>${db.user}</user>
 					<password>${db.password}</password>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.postgresql</groupId>
-						<artifactId>postgresql</artifactId>
-						<version>42.2.11</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 		<resources>
