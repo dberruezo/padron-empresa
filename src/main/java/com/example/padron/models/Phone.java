@@ -1,9 +1,6 @@
 package com.example.padron.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.StringJoiner;
 
@@ -17,6 +14,9 @@ public class Phone implements Serializable {
     @Column(name = "area_code")
     private Integer areaCode;
     private Long number;
+
+    @ManyToOne
+    private Person person;
 
     public Phone () {}
 
@@ -44,10 +44,19 @@ public class Phone implements Serializable {
         this.number = number;
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", Phone.class.getSimpleName() + "[", "]")
             .add("id=" + id)
+            .add("personId=" + getPerson().getId())
             .add("areaCode=" + areaCode)
             .add("number=" + number)
             .toString();

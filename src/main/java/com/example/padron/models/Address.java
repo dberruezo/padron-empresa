@@ -2,6 +2,7 @@ package com.example.padron.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.StringJoiner;
@@ -17,6 +18,9 @@ public class Address implements Serializable {
     private Integer number;
     private String locality;
     private String state;
+
+    @ManyToOne
+    private Person person;
 
     public Address () {}
 
@@ -60,10 +64,19 @@ public class Address implements Serializable {
         this.state = state;
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", Address.class.getSimpleName() + "[", "]")
             .add("id=" + id)
+            .add("personId=" + person.getId())
             .add("street='" + street + "'")
             .add("number=" + number)
             .add("locality='" + locality + "'")

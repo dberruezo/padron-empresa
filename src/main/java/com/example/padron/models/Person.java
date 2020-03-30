@@ -2,7 +2,9 @@ package com.example.padron.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.List;
 import java.util.StringJoiner;
 
 @Entity
@@ -16,6 +18,11 @@ public class Person implements Serializable {
     private Long cuit;
     private String nationality;
     private Boolean active;
+
+    @OneToMany(mappedBy = "person")
+    private List<Address> addresses;
+    @OneToMany(mappedBy = "person")
+    private List<Phone> contactNumbers;
 
     public Person () {}
 
@@ -65,6 +72,22 @@ public class Person implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public List<Phone> getContactNumbers() {
+        return contactNumbers;
+    }
+
+    public void setContactNumbers(List<Phone> contactNumbers) {
+        this.contactNumbers = contactNumbers;
     }
 
     @Override
