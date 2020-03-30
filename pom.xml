@@ -19,7 +19,8 @@
 		<db.url>
 			jdbc:postgresql://localhost/padron_empresa
 		</db.url>
-		<db.user>postgres</db.user>
+		<db.name>POSTGRESQL</db.name>
+		<db.username>postgres</db.username>
 		<db.password>postgres</db.password>
 		<hibernate.dialect>
 			org.hibernate.dialect.PostgreSQL10Dialect
@@ -81,7 +82,7 @@
 				<artifactId>flyway-maven-plugin</artifactId>
 				<configuration>
 					<url>${db.url}</url>
-					<user>${db.user}</user>
+					<user>${db.username}</user>
 					<password>${db.password}</password>
 				</configuration>
 			</plugin>
