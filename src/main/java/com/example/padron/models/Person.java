@@ -1,5 +1,6 @@
 package com.example.padron.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -13,9 +14,12 @@ public class Person implements Serializable {
 
     @Id
     private Integer id;
+    @Column(length = 64)
     private String name;
+    @Column(length = 64)
     private String surname;
     private Long cuit;
+    @Column(length = 20)
     private String nationality;
     private Boolean active;
 

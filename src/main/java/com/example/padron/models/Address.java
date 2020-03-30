@@ -1,9 +1,6 @@
 package com.example.padron.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.StringJoiner;
 
@@ -14,9 +11,12 @@ public class Address implements Serializable {
 
     @Id
     private Integer id;
+    @Column(length = 32)
     private String street;
     private Integer number;
+    @Column(length = 32)
     private String locality;
+    @Column(length = 20)
     private String state;
 
     @ManyToOne
