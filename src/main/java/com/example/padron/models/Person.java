@@ -1,9 +1,8 @@
 package com.example.padron.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.StringJoiner;
@@ -21,11 +20,14 @@ public class Person implements Serializable {
     private Long cuit;
     @Column(length = 20)
     private String nationality;
-    private Boolean active;
+    @Column(nullable = false)
+    private Boolean active = true;
 
     @OneToMany(mappedBy = "person")
+    @JsonIgnore
     private List<Address> addresses;
     @OneToMany(mappedBy = "person")
+    @JsonIgnore
     private List<Phone> contactNumbers;
 
     public Person () {}
