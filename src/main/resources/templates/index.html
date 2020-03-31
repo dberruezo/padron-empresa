@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+</head>
+<body>
+    <h1 th:text="${title}"></h1>
+    <div>
+        <ul>
+            <li>
+                <a th:href="@{/personnel/active}">Listar personal activo</a>
+            </li>
+            <li>
+                <a th:href="@{/personnel/query}">Buscar por CUIT</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
