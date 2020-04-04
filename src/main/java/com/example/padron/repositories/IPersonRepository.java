@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface IPersonRepository extends JpaRepository<Person, Integer>, PagingAndSortingRepository<Person, Integer> {
     List<Person> findByActiveTrue();
-    Person findByCuit(Long cuit);
+    List<Person> findByCuitAndActiveTrue(Long cuit);
 }
