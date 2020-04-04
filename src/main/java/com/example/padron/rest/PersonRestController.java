@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/personnel")
+@RequestMapping("/personnel")
 public class PersonRestController {
     @Autowired
     private PersonService personService;
