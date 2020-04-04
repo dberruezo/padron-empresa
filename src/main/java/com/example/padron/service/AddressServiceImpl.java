@@ -11,8 +11,16 @@ public class AddressServiceImpl implements AddressService {
     private IAddressRepository addressRepository;
 
     @Override
-    public void createAddress(Address address) {
-        addressRepository.save(address);
+    public Address createAddress(Address address) {
+        Address newAddress = null;
+
+        try {
+            newAddress = addressRepository.save(address);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return newAddress;
     }
 
     @Override
