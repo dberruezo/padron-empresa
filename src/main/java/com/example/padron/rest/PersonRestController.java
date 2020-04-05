@@ -78,7 +78,7 @@ public class PersonRestController {
     public ResponseEntity<List<Person>> getActivePersonnel (
         @RequestParam(value = "cuit", required = false) Long cuit
     ) {
-        List<Person> result = new ArrayList<>();
+        List<Person> result = null;
 
         if (cuit != null) {
             result = personService.getPersonByCuit(cuit);
