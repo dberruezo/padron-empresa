@@ -5,16 +5,22 @@ import com.example.padron.repositories.IPhoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class PhoneServiceImpl implements PhoneService {
     @Autowired
     private IPhoneRepository phoneRepository;
 
     @Override
-    public void createPhone(Phone phone) {
-        phoneRepository.save(phone);
+    public Phone createPhone(Phone phone) {
+        Phone newPhone = null;
+
+        try {
+            newPhone = phoneRepository.save(phone);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return newPhone;
     }
 
     @Override
@@ -26,8 +32,6 @@ public class PhoneServiceImpl implements PhoneService {
 
     @Override
     public void deletePhone(int id) {
-        if (phoneRepository.existsById(id)) {
-            phoneRepository.deleteById(id);
-        }
+        phoneRepository.deleteById(id);
     }
 }

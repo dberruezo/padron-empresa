@@ -29,7 +29,7 @@ public class AddressRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveAddress (
+    public ResponseEntity<Address> saveAddress (
         @RequestBody Address address
     ) {
         Address createdAddress = addressService.createAddress(address);

@@ -2,6 +2,7 @@ package com.example.padron.service;
 
 import com.example.padron.models.Person;
 import com.example.padron.repositories.IPersonRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,25 +14,40 @@ public class PersonServiceImpl implements PersonService {
     private IPersonRepository personRepository;
 
     @Override
-    public void createPerson(Person person) {
-        personRepository.save(person);
+    public Person createPerson(Person person) {
+        Person newPerson = null;
+
+        try {
+            newPerson = personRepository.save(person);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
+        return newPerson;
     }
 
     @Override
     public Person readPerson(int id) {
-        return personRepository.findById(id).orElse(null);
+        return personRepository
+            .findById(id)
+            .orElse(null);
     }
 
     @Override
-    public void updatePerson(Person person) {
-        personRepository.save(person);
+    public Person updatePerson(int id, Person person) {
+        if (!personRepository.existsById(id)) {
+            return null;
+        }
+
+        Person updatedPerson = personRepository.getOne(id);
+        BeanUtils.copyProperties(person, updatedPerson, "id");
+
+        return personRepository.save(updatedPerson);
     }
 
     @Override
     public void deletePerson(int id) {
-        if (personRepository.existsById(id)) {
-            personRepository.deleteById(id);
-        }
+        personRepository.deleteById(id);
     }
 
     @Override

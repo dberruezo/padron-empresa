@@ -3,10 +3,12 @@ package com.example.padron.rest;
 import com.example.padron.models.Person;
 import com.example.padron.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,55 +18,74 @@ public class PersonRestController {
     private PersonService personService;
 
     @GetMapping(value = "/{id}")
-    public Person getPerson (
+    public ResponseEntity<Person> getPerson (
         @PathVariable("id") Integer id
     ) {
-        return personService.readPerson(id);
+        Person person = personService.readPerson(id);
 
-        /*
-        throw new ResponseStatusException(
-            HttpStatus.NOT_FOUND,
-            "Person with id " + id.toString() + " not found."
-        );
-         */
+        if (person == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(person);
     }
 
     @PostMapping
-    public void savePerson (
+    public ResponseEntity<Person> savePerson (
         @RequestBody Person person
     ) {
-        personService.createPerson(person);
+        Person createdPerson = personService.createPerson(person);
+
+        if (createdPerson == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        URI uri = ServletUriComponentsBuilder
+            .fromCurrentRequest()
+            .path("/{id}")
+            .buildAndExpand(createdPerson.getId())
+            .toUri();
+
+        return ResponseEntity
+            .created(uri)
+            .body(createdPerson);
     }
 
-    @PutMapping
-    public void updatePerson (
-        @RequestBody Person person
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Person> updatePerson (
+        @RequestBody Person person,
+        @PathVariable("id") Integer id
     ) {
-        personService.updatePerson(person);
+        Person updatedPerson = personService.updatePerson(id, person);
+
+        if (updatedPerson == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(updatedPerson);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deletePerson (
+    public ResponseEntity<Object> deletePerson (
         @PathVariable("id") Integer id
     ) {
         personService.deletePerson(id);
 
-        /*
-        throw new ResponseStatusException(
-            HttpStatus.NOT_FOUND,
-            "Person with id " + id.toString() + " not found thus cannot be deleted."
-        );
-         */
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping
-    public List<Person> getActivePersonnel (
+    public ResponseEntity<List<Person>> getActivePersonnel (
         @RequestParam(value = "cuit", required = false) Long cuit
     ) {
+        List<Person> result = new ArrayList<>();
+
         if (cuit != null) {
-            return personService.getPersonByCuit(cuit);
+            result = personService.getPersonByCuit(cuit);
+        } else {
+            result = personService.getActivePersonnel();
         }
 
-        return personService.getActivePersonnel();
+        return ResponseEntity.ok(result);
     }
 }
