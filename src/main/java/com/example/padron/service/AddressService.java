@@ -5,6 +5,6 @@ import com.example.padron.models.Address;
 public interface AddressService {
     Address createAddress(Address address);
     Address readAddress(int id);
-    void updateAddress(Address address);
+    Address updateAddress(int id, Address address);
     void deleteAddress(int id);
 }

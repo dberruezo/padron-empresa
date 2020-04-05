@@ -49,24 +49,26 @@ public class AddressRestController {
             .body(createdAddress);
     }
 
-    @PutMapping
-    public void updateAddress (
-        @RequestBody Address address
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Address> updateAddress (
+        @RequestBody Address address,
+        @PathVariable("id") Integer id
     ) {
-        addressService.updateAddress(address);
+        Address updatedAddress = addressService.updateAddress(id, address);
+
+        if (updatedAddress == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(updatedAddress);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deleteAddress (
+    public ResponseEntity<Object> deleteAddress (
         @PathVariable("id") Integer id
     ) {
         addressService.deleteAddress(id);
 
-        /*
-        throw new ResponseStatusException(
-            HttpStatus.NOT_FOUND,
-            "Address with id " + id.toString() + " not found thus cannot be deleted."
-        );
-         */
+        return ResponseEntity.noContent().build();
     }
 }

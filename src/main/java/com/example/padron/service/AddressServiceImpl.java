@@ -2,6 +2,7 @@ package com.example.padron.service;
 
 import com.example.padron.models.Address;
 import com.example.padron.repositories.IAddressRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +30,19 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void updateAddress(Address address) {
-        addressRepository.save(address);
+    public Address updateAddress(int id, Address address) {
+        if (!addressRepository.existsById(id)) {
+            return null;
+        }
+
+        Address updatedAddress = addressRepository.getOne(id);
+        BeanUtils.copyProperties(address, updatedAddress, "id");
+
+        return addressRepository.save(updatedAddress);
     }
 
     @Override
     public void deleteAddress(int id) {
-        if (addressRepository.existsById(id)) {
-            addressRepository.deleteById(id);
-        }
+        addressRepository.deleteById(id);
     }
 }
