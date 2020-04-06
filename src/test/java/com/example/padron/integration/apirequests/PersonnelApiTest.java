@@ -1,4 +1,4 @@
-package com.example.padron;
+package com.example.padron.integration.apirequests;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
