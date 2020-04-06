@@ -21,6 +21,12 @@ public class Phone implements Serializable {
 
     public Phone () {}
 
+    public Phone (Integer id, Integer areaCode, Long number) {
+        this.id = id;
+        this.areaCode = areaCode;
+        this.number = number;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -55,9 +61,15 @@ public class Phone implements Serializable {
 
     @Override
     public String toString() {
+        Integer personId = null;
+
+        if (this.getPerson() != null) {
+            personId = getPerson().getId();
+        }
+
         return new StringJoiner(", ", Phone.class.getSimpleName() + "[", "]")
             .add("id=" + id)
-            .add("personId=" + getPerson().getId())
+            .add("personId=" + personId)
             .add("areaCode=" + areaCode)
             .add("number=" + number)
             .toString();

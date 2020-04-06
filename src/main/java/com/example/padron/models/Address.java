@@ -75,9 +75,15 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
+        Integer personId = null;
+
+        if (this.getPerson() != null) {
+            personId = getPerson().getId();
+        }
+
         return new StringJoiner(", ", Address.class.getSimpleName() + "[", "]")
             .add("id=" + id)
-            .add("personId=" + person.getId())
+            .add("personId=" + personId)
             .add("street='" + street + "'")
             .add("number=" + number)
             .add("locality='" + locality + "'")
