@@ -14,19 +14,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MainTests {
+public class PersonnelApiTest {
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Test
 	public void testTest () throws Exception {
-		mockMvc.perform(get("/person/12345678"))
+		mockMvc.perform(get("/api/personnel/12345678"))
 			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-			.andExpect(
-				jsonPath("$.id", equalTo(12345678))
-			)
+			.andExpect(status().isNotFound())
 		;
 	}
 }
