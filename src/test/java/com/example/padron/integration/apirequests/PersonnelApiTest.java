@@ -9,7 +9,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -21,7 +20,6 @@ public class PersonnelApiTest {
 	@Test
 	public void testTest () throws Exception {
 		mockMvc.perform(get("/api/personnel/12345678"))
-			.andDo(print())
 			.andExpect(status().isNotFound())
 		;
 	}
