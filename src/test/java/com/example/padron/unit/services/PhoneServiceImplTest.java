@@ -4,12 +4,10 @@ import com.example.padron.models.Phone;
 import com.example.padron.repositories.IPhoneRepository;
 import com.example.padron.service.PhoneService;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
@@ -17,7 +15,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 
-@RunWith(SpringRunner.class)
+// Rework with MockitoRunner to avoid loading Spring context
 @SpringBootTest
 public class PhoneServiceImplTest {
     @Autowired
