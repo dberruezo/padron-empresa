@@ -32,6 +32,14 @@ public class Person implements Serializable {
 
     public Person () {}
 
+    public Person(Integer id, String name, String surname, Long cuit, String nationality) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.cuit = cuit;
+        this.nationality = nationality;
+    }
+
     public Integer getId() {
         return id;
     }
