@@ -5,7 +5,6 @@ import com.example.padron.rest.PhoneRestController;
 import com.example.padron.service.PhoneService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,9 +13,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(PhoneRestController.class)
@@ -34,14 +37,12 @@ public class PhoneRestControllerTest {
     public void whenPhoneIsCorrectThenSaveAndReturn () throws Exception {
         // Set-up
         Phone phone = new Phone();
-        phone.setAreaCode(11);
-        phone.setNumber(1533978200L);
 
         Phone createdPhone = new Phone(
             3, 11, 1533978200L
         );
 
-        Mockito.when(
+        when(
             phoneService.createPhone(any(Phone.class))
         ).thenReturn(createdPhone);
 
@@ -52,6 +53,7 @@ public class PhoneRestControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(phone)))
             .andExpect(status().isCreated())
+            .andExpect(header().string("Location", "http://localhost/phone/3"))
             .andReturn();
 
         String responseBody = result.getResponse().getContentAsString();
@@ -66,7 +68,7 @@ public class PhoneRestControllerTest {
         phone.setAreaCode(11);
         phone.setNumber(1533978200L);
 
-        Mockito.when(
+        when(
             phoneService.createPhone(any(Phone.class))
         ).thenReturn(null);
 
@@ -84,7 +86,7 @@ public class PhoneRestControllerTest {
             1, 11, 1574638292L
         );
 
-        Mockito.when(
+        when(
             phoneService.readPhone(anyInt())
         ).thenReturn(phone);
 
@@ -103,7 +105,7 @@ public class PhoneRestControllerTest {
 
     @Test
     public void whenPhoneDoesNotExistThenReturnNotFound () throws Exception {
-        Mockito.when(
+        when(
             phoneService.readPhone(anyInt())
         ).thenReturn(null);
 
@@ -119,8 +121,8 @@ public class PhoneRestControllerTest {
             delete("/phone/6")
         ).andExpect(status().isNoContent());
 
-        Mockito.verify(
-            phoneService, Mockito.times(1)
+        verify(
+            phoneService, times(1)
         ).deletePhone(anyInt());
     }
 }
