@@ -29,7 +29,7 @@ public class PhoneRepositoryTest {
     private IPhoneRepository phoneRepository;
 
     @Test
-    public void whenFindByName_thenReturnEmployee() {
+    public void whenFindByIdThenReturnPhone() {
         // Set-up
         Person person = new Person();
         person.setId(10);
