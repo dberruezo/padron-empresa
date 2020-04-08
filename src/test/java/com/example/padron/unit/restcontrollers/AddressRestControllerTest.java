@@ -1,7 +1,6 @@
 package com.example.padron.unit.restcontrollers;
 
 import com.example.padron.models.Address;
-import com.example.padron.models.Phone;
 import com.example.padron.rest.AddressRestController;
 import com.example.padron.service.AddressService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -165,8 +164,6 @@ public class AddressRestControllerTest {
             "Alabama",
             "Texas"
         );
-
-        String expectedBody = objectMapper.writeValueAsString(updatedAddress);
 
         when(
             addressService.updateAddress(anyInt(), any(Address.class))
