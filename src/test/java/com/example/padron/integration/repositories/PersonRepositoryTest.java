@@ -1,74 +1,80 @@
 package com.example.padron.integration.repositories;
 
 import com.example.padron.models.Person;
-import com.example.padron.models.Phone;
 import com.example.padron.repositories.IPersonRepository;
-import com.example.padron.repositories.IPhoneRepository;
-import org.junit.Assert;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
-public class PhoneRepositoryTest {
+public class PersonRepositoryTest {
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
     private IPersonRepository personRepository;
 
-    @Autowired
-    private IPhoneRepository phoneRepository;
-
     @Test
-    public void whenFindByIdThenReturnPhone() {
-        // Set-up
-        Person person = new Person();
-        person.setId(10);
-        person.setName("John");
-        person.setSurname("Doe");
-        person.setCuit(20332212215L);
-        person.setNationality("argentina");
+    public void whenFindByActiveThenReturnActivePersonnel() {
+        Person person = new Person(
+            10,
+            "John",
+            "Doe",
+            20332212215L,
+            "argentina"
+        );
+
+        Person nonActive = new Person(
+            12414231,
+            "Veronica",
+            "Alvarez",
+            2733982817L,
+            "argentina"
+        );
+        nonActive.setActive(false);
 
         entityManager.persist(person);
         entityManager.flush();
 
-        Phone phone = new Phone();
-        phone.setAreaCode(11);
-        phone.setNumber(1583726178L);
-        phone.setPerson(person);
-
-        person.setContactNumbers(new ArrayList<>());
-        person.getContactNumbers().add(phone);
-
-        entityManager.persist(phone);
+        entityManager.persist(nonActive);
         entityManager.flush();
 
-        Integer phoneId = phone.getId();
+        List<Person> allPersonnel = personRepository.findAll();
+        List<Person> activePersonnel = personRepository
+            .findByActiveTrue();
 
-        // Test
-        Optional<Phone> query = phoneRepository
-            .findById(phoneId);
+        assertThat(allPersonnel).hasSize(3);
+        assertThat(activePersonnel).hasSize(2);
+    }
 
-        Phone foundPhone = null;
+    @Test
+    public void whenFindByCuitThenReturnActivePerson () {
+        Person thirdActivePerson = new Person(
+            5342232,
+            "Soledad",
+            "Morales",
+            2731234726L,
+            "argentina"
+        );
 
-        if (query.isPresent()) {
-            foundPhone = query.get();
-        }
+        entityManager.persist(thirdActivePerson);
+        entityManager.flush();
 
-        if (foundPhone != null) {
-            assertThat(foundPhone.getNumber())
-                .isEqualTo(phone.getNumber());
-        } else {
-            Assert.fail("Phone should not be null.");
-        }
+        List<Person> allPersonnel = personRepository.findAll();
+        List<Person> personnelByCuit = personRepository
+            .findByCuitAndActiveTrue(2731234726L);
+
+        assertThat(allPersonnel).hasSize(2);
+        assertThat(personnelByCuit).hasSize(1);
+        assertThat(personnelByCuit).first()
+            .isEqualToComparingFieldByField(thirdActivePerson);
     }
 }
