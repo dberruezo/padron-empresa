@@ -15,7 +15,6 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 
-// Rework with MockitoRunner to avoid loading Spring context
 @SpringBootTest
 public class PhoneServiceImplTest {
     @Autowired
