@@ -4,7 +4,6 @@ import com.example.padron.models.Phone;
 import com.example.padron.repositories.IPhoneRepository;
 import com.example.padron.service.PhoneService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,6 +13,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class PhoneServiceImplTest {
@@ -30,7 +30,7 @@ public class PhoneServiceImplTest {
             2, 11, 1598765423L
         );
 
-        Mockito.when(
+        when(
             phoneRepository.save(any(Phone.class))
         ).thenReturn(mockPhone);
 
@@ -47,11 +47,11 @@ public class PhoneServiceImplTest {
 
     @Test
     public void whenPhoneIsIncorrectThenDoNotSave () {
-        Mockito.when(
-            phoneRepository.save(null)
+        when(
+            phoneRepository.save(any(Phone.class))
         ).thenThrow(IllegalArgumentException.class);
 
-        Phone badPhone = phoneService.createPhone(null);
+        Phone badPhone = phoneService.createPhone(new Phone());
 
         assertThat(badPhone).isNull();
     }
@@ -63,7 +63,7 @@ public class PhoneServiceImplTest {
             1, 11, 1567876341L
         );
 
-        Mockito.when(
+        when(
             phoneRepository.findById(1)
         ).thenReturn(Optional.of(mockPhone));
 
@@ -80,7 +80,7 @@ public class PhoneServiceImplTest {
 
     @Test
     public void whenPhoneDoesNotExistThenReturnNull () {
-        Mockito.when(
+        when(
             phoneRepository.findById(anyInt())
         ).thenReturn(Optional.empty());
 
@@ -90,12 +90,12 @@ public class PhoneServiceImplTest {
 
     @Test
     public void whenDeletingPhoneThenReturnNothing () {
-        Mockito.doNothing().when(phoneRepository).deleteById(anyInt());
+        doNothing().when(phoneRepository).deleteById(anyInt());
 
         phoneService.deletePhone(1);
 
-        Mockito.verify(
-            phoneRepository, Mockito.times(1)
+        verify(
+            phoneRepository, times(1)
         ).deleteById(1);
     }
 }
