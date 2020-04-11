@@ -1,6 +1,5 @@
 package com.example.padron.unit.restcontrollers;
 
-import com.example.padron.models.Address;
 import com.example.padron.models.Person;
 import com.example.padron.rest.PersonRestController;
 import com.example.padron.service.PersonService;

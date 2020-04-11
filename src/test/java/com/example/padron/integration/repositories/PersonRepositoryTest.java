@@ -2,7 +2,6 @@ package com.example.padron.integration.repositories;
 
 import com.example.padron.models.Person;
 import com.example.padron.repositories.IPersonRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
